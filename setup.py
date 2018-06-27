@@ -12,6 +12,7 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/bleeez/cloud-assistant",
+    install_requires=['configparser'],
     packages=setuptools.find_packages(),
     entry_points={"console_scripts": ["cassist=cloud_assistant.__main__:main"]},
     classifiers=(
