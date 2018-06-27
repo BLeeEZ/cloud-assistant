@@ -1,5 +1,5 @@
-from settings import Settings, CONF_DIR
-from nextcloud import Nextcloud
+from cloud_assistant.settings import Settings, CONF_DIR
+from cloud_assistant.nextcloud import Nextcloud
 
 class CloudAssistant:
     def __init__(self, settings):
@@ -14,7 +14,7 @@ def main():
     userSettings = Settings()
     userSettings.load_from_file(CONF_DIR)
     cloud_assistant = CloudAssistant(userSettings)
-    
+
     print( cloud_assistant.get_events_for_today() )
 
 if __name__ == "__main__":

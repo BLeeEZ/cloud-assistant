@@ -22,7 +22,7 @@ class VCalendarWrapper(object):
                 self.__start_datetime = self.__datetime_string_to_datetime( line.replace('DTSTART:', '') )
             if 'DTSTART;VALUE=DATE:' in line:
                 self.__start_datetime = self.__date_string_to_datetime( line.replace('DTSTART;VALUE=DATE:', '') )
-                
+
             if 'DTEND:' in line:
                 self.__end_datetime = self.__datetime_string_to_datetime( line.replace('DTEND:', '') )
             if 'DTEND;VALUE=DATE:' in line:
@@ -33,8 +33,8 @@ class VCalendarWrapper(object):
 
     def to_text(self):
         return 'Der Termin {} beginnt am {} um {} Uhr und endet um {} Uhr.'.format(
-        self.__summary, 
-        self.__start_datetime.strftime("%d.%m.%Y"), 
+        self.__summary,
+        self.__start_datetime.strftime("%d.%m.%Y"),
         self.__start_datetime.strftime("%H:%M"),
         self.__end_datetime.strftime("%H:%M")
         )
@@ -53,7 +53,7 @@ class Nextcloud(object):
     def __disable_insecure_request_warnings(self):
         import urllib3
         urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    
+
     def connect_and_get_calendars_methainfo(self):
         self.__principal = self.__client.principal()
         self.__calendars = self.__principal.calendars()

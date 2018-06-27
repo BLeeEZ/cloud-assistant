@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="cloud_assistant",
-    version="0.0.1",
+    version="0.0.2",
     author="Maximilian Bauer",
     author_email="bauer.maximilian@web.de",
     description="Cloud assistant for cli",
