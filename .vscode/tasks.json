@@ -1,0 +1,30 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "type": "shell",
+    "options": {
+        "cwd": "${workspaceRoot}",
+    },
+
+    "tasks": [
+        {
+            "label": "Install via pip",
+            "command": "pip install .",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build source archive and built destribution",
+            "command": "python setup.py sdist bdist_wheel",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

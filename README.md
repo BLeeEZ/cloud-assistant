@@ -1,2 +1,2 @@
 # cloud-assistant
-Cloud interaction assistant via linux cli
+Cloud interaction assistant via cli

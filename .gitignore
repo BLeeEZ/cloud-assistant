@@ -1,0 +1,5 @@
+dist/*
+cloud_assistant.egg-info/*
+build/*
+*.pyc
+__pycache__/*
