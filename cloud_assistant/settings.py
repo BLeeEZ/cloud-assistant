@@ -11,19 +11,19 @@ import configparser
 
 class Settings:
     @property
-    def ServerUrlDav(self):
+    def server_url_dav(self):
         return self.config['ServerConfig']['ServerUrlDav']
     
     @property
-    def UserName(self):
+    def user_name(self):
         return self.config['ServerConfig']['UserName'] 
     
     @property
-    def UserPassword(self):
+    def user_password(self):
         return self.config['ServerConfig']['UserPassword'] 
     
     @property
-    def Proxy(self):
+    def proxy(self):
         return self.config['ServerConfig']['Proxy'] 
    
     def __init__(self):

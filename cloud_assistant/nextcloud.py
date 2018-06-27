@@ -41,10 +41,10 @@ class VCalendarWrapper(object):
 
 class Nextcloud(object):
     def __init__(self, credentials):
-        self.__url = credentials.ServerUrlDav
-        self.__user_name = credentials.UserName
-        self.__user_pw = credentials.UserPassword
-        self.__proxy = credentials.Proxy
+        self.__url = credentials.server_url_dav
+        self.__user_name = credentials.user_name
+        self.__user_pw = credentials.user_password
+        self.__proxy = credentials.proxy
         self.__client = caldav.DAVClient(self.__url, username=self.__user_name, password=self.__user_pw, ssl_verify_cert=False, proxy=self.__proxy)
         self.__principal = None
         self.__calendars = None
