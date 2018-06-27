@@ -1,4 +1,3 @@
-import logging
 from settings import Settings, CONF_DIR
 from nextcloud import Nextcloud
 
@@ -12,13 +11,11 @@ class CloudAssistant:
 
 def main():
     """Main script function."""
-    logging.basicConfig(level=logging.INFO)
-    
     userSettings = Settings()
     userSettings.load_from_file(CONF_DIR)
     cloud_assistant = CloudAssistant(userSettings)
     
-    logging.info( cloud_assistant.get_events_for_today() )
+    print( cloud_assistant.get_events_for_today() )
 
 if __name__ == "__main__":
     main()

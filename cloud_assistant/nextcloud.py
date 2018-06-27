@@ -48,7 +48,12 @@ class Nextcloud(object):
         self.__client = caldav.DAVClient(self.__url, username=self.__user_name, password=self.__user_pw, ssl_verify_cert=False, proxy=self.__proxy)
         self.__principal = None
         self.__calendars = None
+        self.__disable_insecure_request_warnings()
 
+    def __disable_insecure_request_warnings(self):
+        import urllib3
+        urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+    
     def connect_and_get_calendars_methainfo(self):
         self.__principal = self.__client.principal()
         self.__calendars = self.__principal.calendars()
