@@ -10,12 +10,24 @@ OS = platform.uname()[0]
 import configparser
 
 class Settings:
+    @property
+    def ServerUrlDav(self):
+        return self.config['ServerConfig']['ServerUrlDav']
+    
+    @property
+    def UserName(self):
+        return self.config['ServerConfig']['UserName'] 
+    
+    @property
+    def UserPassword(self):
+        return self.config['ServerConfig']['UserPassword'] 
+   
     def __init__(self):
         self.config = configparser.ConfigParser()
     
     def __create_default(self):
         self.config['ServerConfig'] = {}
-        self.config['ServerConfig']['ServerUrlToDav'] = 'https://www.example.com/nextcloud/remote.php/dav/'
+        self.config['ServerConfig']['ServerUrlDav'] = 'https://www.example.com/nextcloud/remote.php/dav/'
         self.config['ServerConfig']['UserName'] = ''
         self.config['ServerConfig']['UserPassword'] = ''
 

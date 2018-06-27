@@ -4,7 +4,7 @@ def main():
     """Main script function."""
     userSettings = Settings()
     userSettings.load_from_file(CONF_DIR)
-    print(userSettings.config['ServerConfig']['ServerUrlToDav'])
+    print(userSettings.ServerUrlDav)
 
 if __name__ == "__main__":
     main()
