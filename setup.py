@@ -4,8 +4,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="cloud_assistant",
-    version="0.0.2",
+    name="cloud-assist",
+    version="0.0.3",
     author="Maximilian Bauer",
     author_email="bauer.maximilian@web.de",
     description="Cloud assistant for cli",
@@ -14,7 +14,7 @@ setuptools.setup(
     url="https://github.com/bleeez/cloud-assistant",
     install_requires=['configparser', 'caldav'],
     packages=setuptools.find_packages(),
-    entry_points={"console_scripts": ["cassist=cloud_assistant.__main__:main"]},
+    entry_points={"console_scripts": ["cassist=cloudassist.__main__:main"]},
     classifiers=(
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

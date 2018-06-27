@@ -3,7 +3,7 @@ import platform
 
 HOME = os.getenv("HOME", os.getenv("USERPROFILE"))
 MODULE_DIR = os.path.dirname(__file__)
-CONF_DIR = os.path.join(HOME, ".config", "cloud-assistant.conf")
+CONF_DIR = os.path.join(HOME, ".config", "cloudassist.conf")
 OS = platform.uname()[0]
 
 
@@ -13,22 +13,26 @@ class Settings:
     @property
     def server_url_dav(self):
         return self.config['ServerConfig']['ServerUrlDav']
-    
+
     @property
     def user_name(self):
-        return self.config['ServerConfig']['UserName'] 
-    
+        return self.config['ServerConfig']['UserName']
+
     @property
     def user_password(self):
-        return self.config['ServerConfig']['UserPassword'] 
-    
+        return self.config['ServerConfig']['UserPassword']
+
     @property
     def proxy(self):
-        return self.config['ServerConfig']['Proxy'] 
-   
+        proxy_conf = self.config['ServerConfig']['Proxy']
+        if proxy_conf == '':
+            return None
+        else:
+            return proxy_conf
+
     def __init__(self):
         self.config = configparser.ConfigParser()
-    
+
     def __create_default(self):
         self.config['ServerConfig'] = {}
         self.config['ServerConfig']['ServerUrlDav'] = 'https://www.example.com/nextcloud/remote.php/dav/'

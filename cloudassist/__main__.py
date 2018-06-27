@@ -1,5 +1,5 @@
-from cloud_assistant.settings import Settings, CONF_DIR
-from cloud_assistant.nextcloud import Nextcloud
+from cloudassist.settings import Settings, CONF_DIR
+from cloudassist.nextcloud import Nextcloud
 
 class CloudAssistant:
     def __init__(self, settings):
