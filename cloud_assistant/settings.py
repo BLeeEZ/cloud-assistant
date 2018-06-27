@@ -21,6 +21,10 @@ class Settings:
     @property
     def UserPassword(self):
         return self.config['ServerConfig']['UserPassword'] 
+    
+    @property
+    def Proxy(self):
+        return self.config['ServerConfig']['Proxy'] 
    
     def __init__(self):
         self.config = configparser.ConfigParser()
@@ -30,6 +34,7 @@ class Settings:
         self.config['ServerConfig']['ServerUrlDav'] = 'https://www.example.com/nextcloud/remote.php/dav/'
         self.config['ServerConfig']['UserName'] = ''
         self.config['ServerConfig']['UserPassword'] = ''
+        self.config['ServerConfig']['Proxy'] = ''
 
     def load_from_file(self, filepath):
         if os.path.exists(filepath):
