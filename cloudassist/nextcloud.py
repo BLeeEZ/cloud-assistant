@@ -8,11 +8,17 @@ class VCalendarWrapper(object):
     def summary(self):
         return self.__summary
     @property
+    def startDateTime(self):
+        return self.__start_datetime
+    @property
     def startDate(self):
         return self.__start_datetime.strftime("%d.%m.%Y")
     @property
     def startTime(self):
         return self.__start_datetime.strftime("%H:%M")
+    @property
+    def endDateTime(self):
+        return self.__end_datetime
     @property
     def endDate(self):
         return self.__end_datetime.strftime("%d.%m.%Y")
@@ -46,14 +52,6 @@ class VCalendarWrapper(object):
 
             if 'SUMMARY:' in line:
                 self.__summary = line.replace('SUMMARY:', '')
-
-    def to_text(self):
-        return 'Der Termin {} beginnt am {} um {} Uhr und endet um {} Uhr.'.format(
-        self.__summary,
-        self.__start_datetime.strftime("%d.%m.%Y"),
-        self.__start_datetime.strftime("%H:%M"),
-        self.__end_datetime.strftime("%H:%M")
-        )
 
 class Nextcloud(object):
     def __init__(self, credentials):
@@ -97,13 +95,10 @@ class Nextcloud(object):
         startdate = date.today()
         enddate = date.today() + timedelta(days=7)
         appointments = self.get_all_appointments_between(startdate, enddate)
-        outputStyler = OutputStyler()
+        outputStyler = DecoratedOutputStyler()
         return outputStyler.formatAppointments(appointments)
 
 class OutputStyler(object):
-    def __init__(self):
-        pass
-
     def formatAppointments(self, appointments):
         return_text = self._formatHeader(appointments)
         for appointment in appointments:
@@ -124,3 +119,18 @@ class OutputStyler(object):
             appointment.endTime,
             appointment.summary,
         )
+
+class DecoratedOutputStyler(OutputStyler):
+    def _formatHeader(self, appointments):
+        return ''
+
+    def _formatAppointment(self, appointment):
+        return_text = ''
+        return_text = return_text + '                                                       _______________\n'
+        return_text = return_text + '  _____________________________________________________|  {}  |_____________________________________________________\n'.format(appointment.startDateTime.strftime("%a %d.%m"))
+        return_text = return_text + '\t\t\t{} - {}\t{}\n'.format(
+            appointment.startTime,
+            appointment.endTime,
+            appointment.summary,
+        )
+        return return_text
