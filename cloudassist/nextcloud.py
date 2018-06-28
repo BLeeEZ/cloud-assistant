@@ -74,7 +74,6 @@ class Nextcloud(object):
 
     def get_all_appointments_between(self, startdate, enddate):
         appointments_found = []
-        return_text = ''
         if len(self.__calendars) > 0:
             for calendar in self.__calendars:
                 results = calendar.date_search(startdate, enddate)
@@ -84,19 +83,15 @@ class Nextcloud(object):
                     appointments_found.append(calendarEntry)
         return appointments_found
 
-    def get_all_appointments_as_text_for_today(self):
+    def get_all_appointments_for_today(self):
         startdate = date.today()
         enddate = date.today() + timedelta(days=1)
-        appointments = self.get_all_appointments_between(startdate, enddate)
-        outputStyler = OutputStyler()
-        return outputStyler.formatAppointments(appointments)
+        return self.get_all_appointments_between(startdate, enddate)
 
     def get_all_appointments_for_this_week(self):
         startdate = date.today()
         enddate = date.today() + timedelta(days=7)
-        appointments = self.get_all_appointments_between(startdate, enddate)
-        outputStyler = DecoratedOutputStyler()
-        return outputStyler.formatAppointments(appointments)
+        return self.get_all_appointments_between(startdate, enddate)
 
 class OutputStyler(object):
     def formatAppointments(self, appointments):
