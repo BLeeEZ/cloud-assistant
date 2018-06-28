@@ -104,17 +104,17 @@ class OutputStyler(object):
     def __init__(self):
         pass
 
-    def formatHeader(self, appointments):
+    def formatAppointments(self, appointments):
+        return_text = self._formatHeader(appointments)
+        for appointment in appointments:
+            return_text = return_text + '\n' + self._formatAppointment(appointment)
+        return return_text
+
+    def _formatHeader(self, appointments):
         if len(appointments) == 0:
             return 'No appointments'
         else:
             return 'There are {} appointments'.format(len(appointments))
-
-    def formatAppointments(self, appointments):
-        return_text = self.formatHeader(appointments)
-        for appointment in appointments:
-            return_text = return_text + '\n' + self._formatAppointment(appointment)
-        return return_text
 
     def _formatAppointment(self, appointment):
         return '{} {} - {} {}: {}'.format(
