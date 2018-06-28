@@ -70,24 +70,33 @@ class Nextcloud(object):
                     appointments_found.append(calendarEntry.to_text())
         return appointments_found
 
-    def convert_appointments_to_text(self, appointments_list):
-        if len(appointments_list) > 0:
-            return_text = 'Es stehen {} Termin an.'.format(len(appointments_list))
-            for found_appointment in appointments_list:
-                return_text = return_text + '\n'
-                return_text = return_text + found_appointment
-        else:
-            return_text = 'Heute stehen keine Termin an.'
-        return return_text
-
     def get_all_appointments_as_text_for_today(self):
         startdate = date.today()
         enddate = date.today() + timedelta(days=1)
-        appointments_list = self.get_all_appointments_between(startdate, enddate)
-        return self.convert_appointments_to_text(appointments_list)
+        appointments = self.get_all_appointments_between(startdate, enddate)
+        outputStyler = OutputStyler()
+        return outputStyler.formatAppointments(appointments)
 
     def get_all_appointments_for_this_week(self):
         startdate = date.today()
         enddate = date.today() + timedelta(days=7)
-        appointments_list = self.get_all_appointments_between(startdate, enddate)
-        return self.convert_appointments_to_text(appointments_list)
+        appointments = self.get_all_appointments_between(startdate, enddate)
+        outputStyler = OutputStyler()
+        return outputStyler.formatAppointments(appointments)
+
+class OutputStyler(object):
+    def __init__(self):
+        pass
+
+    def formatHeader(self, appointments):
+        if len(appointments) == 0:
+            return 'No appoints'
+        else:
+            return 'There are {} appointments'.format(len(appointments))
+
+    def formatAppointments(self, appointments):
+        return_text = self.formatHeader(appointments)
+        for appointment in appointments:
+            return_text = return_text + '\n'
+            return_text = return_text + appointment
+        return return_text
