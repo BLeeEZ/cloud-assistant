@@ -4,6 +4,22 @@ from caldav.elements import dav, cdav
 from datetime import datetime, date, timedelta
 
 class VCalendarWrapper(object):
+    @property
+    def summary(self):
+        return self.__summary
+    @property
+    def startDate(self):
+        return self.__start_datetime.strftime("%d.%m.%Y")
+    @property
+    def startTime(self):
+        return self.__start_datetime.strftime("%H:%M")
+    @property
+    def endDate(self):
+        return self.__end_datetime.strftime("%d.%m.%Y")
+    @property
+    def endTime(self):
+        return self.__end_datetime.strftime("%H:%M")
+
     def __init__(self, calendar_data):
         self.__calendar_data = calendar_data
         self.__start_datetime = None
@@ -67,7 +83,7 @@ class Nextcloud(object):
 
                 for appointment in results:
                     calendarEntry = VCalendarWrapper(appointment.data)
-                    appointments_found.append(calendarEntry.to_text())
+                    appointments_found.append(calendarEntry)
         return appointments_found
 
     def get_all_appointments_as_text_for_today(self):
@@ -90,13 +106,21 @@ class OutputStyler(object):
 
     def formatHeader(self, appointments):
         if len(appointments) == 0:
-            return 'No appoints'
+            return 'No appointments'
         else:
             return 'There are {} appointments'.format(len(appointments))
 
     def formatAppointments(self, appointments):
         return_text = self.formatHeader(appointments)
         for appointment in appointments:
-            return_text = return_text + '\n'
-            return_text = return_text + appointment
+            return_text = return_text + '\n' + self._formatAppointment(appointment)
         return return_text
+
+    def _formatAppointment(self, appointment):
+        return '{} {} - {} {}: {}'.format(
+            appointment.startDate,
+            appointment.startTime,
+            appointment.endDate,
+            appointment.endTime,
+            appointment.summary,
+        )
