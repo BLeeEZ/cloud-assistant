@@ -6,8 +6,11 @@ class CloudAssistant:
         self.__nextcloud = Nextcloud(settings)
         self.__nextcloud.connect_and_get_calendars_methainfo()
 
-    def get_events_for_today(self):
-        return self.__nextcloud.get_all_events_as_text_for_today()
+    def print_all_appointments_for_today(self):
+        print( self.__nextcloud.get_all_appointments_as_text_for_today() )
+
+    def print_all_appointments_till_one_week(self):
+        print( self.__nextcloud.get_all_appointments_for_this_week() )
 
 def main():
     """Main script function."""
@@ -15,7 +18,7 @@ def main():
     userSettings.load_from_file(CONF_DIR)
     cloud_assistant = CloudAssistant(userSettings)
 
-    print( cloud_assistant.get_events_for_today() )
+    cloud_assistant.print_all_appointments_till_one_week()
 
 if __name__ == "__main__":
     main()

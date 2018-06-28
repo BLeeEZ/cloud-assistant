@@ -58,29 +58,36 @@ class Nextcloud(object):
         self.__principal = self.__client.principal()
         self.__calendars = self.__principal.calendars()
 
-    def get_all_events_between(self, startdate, enddate):
-        events_found = []
+    def get_all_appointments_between(self, startdate, enddate):
+        appointments_found = []
         return_text = ''
         if len(self.__calendars) > 0:
             for calendar in self.__calendars:
                 results = calendar.date_search(startdate, enddate)
 
-                for event in results:
-                    calendarEntry = VCalendarWrapper(event.data)
-                    events_found.append(calendarEntry.to_text())
-        return events_found
+                for appointment in results:
+                    calendarEntry = VCalendarWrapper(appointment.data)
+                    appointments_found.append(calendarEntry.to_text())
+        return appointments_found
 
-    def convert_events_to_text(self, events_list):
-        if len(events_list) > 0:
-            return_text = 'Es stehen {} Termin an.\n'.format(len(events_list))
-            for found_event in events_list:
-                return_text = return_text + found_event + '\n'
+    def convert_appointments_to_text(self, appointments_list):
+        if len(appointments_list) > 0:
+            return_text = 'Es stehen {} Termin an.'.format(len(appointments_list))
+            for found_appointment in appointments_list:
+                return_text = return_text + '\n'
+                return_text = return_text + found_appointment
         else:
             return_text = 'Heute stehen keine Termin an.'
         return return_text
 
-    def get_all_events_as_text_for_today(self):
+    def get_all_appointments_as_text_for_today(self):
         startdate = date.today()
         enddate = date.today() + timedelta(days=1)
-        events_list = self.get_all_events_between(startdate, enddate)
-        return self.convert_events_to_text(events_list)
+        appointments_list = self.get_all_appointments_between(startdate, enddate)
+        return self.convert_appointments_to_text(appointments_list)
+
+    def get_all_appointments_for_this_week(self):
+        startdate = date.today()
+        enddate = date.today() + timedelta(days=7)
+        appointments_list = self.get_all_appointments_between(startdate, enddate)
+        return self.convert_appointments_to_text(appointments_list)
