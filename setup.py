@@ -3,9 +3,11 @@ import setuptools
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
+import cloudassist.settings
+
 setuptools.setup(
     name="cloudassist",
-    version="0.0.3",
+    version=cloudassist.settings.__version__,
     author="Maximilian Bauer",
     author_email="bauer.maximilian@web.de",
     description="Cloud assistant for cli",
