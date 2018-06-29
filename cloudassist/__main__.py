@@ -1,18 +1,9 @@
 from cloudassist.settings import Settings
-from cloudassist.nextcloud import Nextcloud, OutputStyler, DecoratedOutputStyler
-
-class CloudAssistant:
-    def __init__(self, settings):
-        self.__nextcloud = Nextcloud(settings)
-        self.__nextcloud.connect_and_get_calendars_methainfo()
-
-    def print_all_appointments_for_today(self, styler):
-        print( styler.formatAppointments(self.__nextcloud.get_all_appointments_for_today()) )
-
-    def print_all_appointments_till_one_week(self, styler):
-        print( styler.formatAppointments(self.__nextcloud.get_all_appointments_for_this_week()) )
-
+from cloudassist.cloudassistant import CloudAssistant
+from cloudassist.styler.listingstyler import ListingStyler
+from cloudassist.styler.reportstyler import ReportStyler
 import argparse
+
 def main():
     parser = argparse.ArgumentParser(description="Cloud assistant for command line")
     parser.add_argument('-s', dest='decoraterStyle', action='store',
@@ -25,9 +16,9 @@ def main():
     args = parser.parse_args()
 
     if args.decoraterStyle == 'report':
-        styler = DecoratedOutputStyler()
+        styler = ReportStyler()
     else:
-        styler = OutputStyler()
+        styler = ListingStyler()
 
     userSettings = Settings()
     userSettings.load_from_file(Settings.CONF_DIR)

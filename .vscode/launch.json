@@ -11,6 +11,9 @@
             "cwd": "${workspaceRoot}/cloudassist",
             "env": {},
             "args": [
+                "-w",
+                "-s",
+                "report"
             ],           
             "envFile": "${workspaceRoot}/.env",
             "debugOptions": [
