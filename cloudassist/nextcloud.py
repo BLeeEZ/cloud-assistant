@@ -32,6 +32,7 @@ class Nextcloud(object):
                 for appointment in results:
                     calendarEntry = VCalendarWrapper(appointment.data)
                     appointments_found.append(calendarEntry)
+        appointments_found.sort(key= lambda x: x.startDateTime)
         return appointments_found
 
     def get_all_appointments_for_today(self):
