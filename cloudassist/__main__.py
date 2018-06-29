@@ -15,16 +15,16 @@ class CloudAssistant:
 import argparse
 def main():
     parser = argparse.ArgumentParser(description="Cloud assistant for command line")
-    parser.add_argument('-d', dest='decoraterStyle', action='store_true',
+    parser.add_argument('-s', dest='decoraterStyle', action='store',
                        help='Specify the style of the output')
-    parser.add_argument('-t', dest='isToday', action='store_true',
+    parser.add_argument('-d', dest='isToday', action='store_true',
                        help='Print appointments for today')
     parser.add_argument('-w', dest='isWeek', action='store_true',
                        help='Print appointments for today to on week in the future')
 
     args = parser.parse_args()
-    
-    if args.decoraterStyle:
+
+    if args.decoraterStyle == 'report':
         styler = DecoratedOutputStyler()
     else:
         styler = OutputStyler()
