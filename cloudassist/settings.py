@@ -1,13 +1,5 @@
 import os
 import platform
-
-
-import subprocess
-import re
-__version__ = subprocess.check_output(["git", "describe", "--tags"]).rstrip()
-__version__ = __version__.decode('UTF-8')
-__version__ = re.search("(\d+\.\d+\.\d+)(?:(\-\d+))?", __version__).group(0)
-
 import configparser
 
 class Settings:
@@ -15,7 +7,7 @@ class Settings:
     MODULE_DIR = os.path.dirname(__file__)
     CONF_DIR = os.path.join(HOME, ".config", "cloudassist.conf")
     OS = platform.uname()[0]
-    
+
     @property
     def server_url_dav(self):
         return self.config['ServerConfig']['ServerUrlDav']
