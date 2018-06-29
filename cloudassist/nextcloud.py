@@ -4,6 +4,28 @@ from caldav.elements import dav, cdav
 from datetime import datetime, date, timedelta
 
 class VCalendarWrapper(object):
+    @property
+    def summary(self):
+        return self.__summary
+    @property
+    def startDateTime(self):
+        return self.__start_datetime
+    @property
+    def startDate(self):
+        return self.__start_datetime.strftime("%d.%m.%Y")
+    @property
+    def startTime(self):
+        return self.__start_datetime.strftime("%H:%M")
+    @property
+    def endDateTime(self):
+        return self.__end_datetime
+    @property
+    def endDate(self):
+        return self.__end_datetime.strftime("%d.%m.%Y")
+    @property
+    def endTime(self):
+        return self.__end_datetime.strftime("%H:%M")
+
     def __init__(self, calendar_data):
         self.__calendar_data = calendar_data
         self.__start_datetime = None
@@ -31,14 +53,6 @@ class VCalendarWrapper(object):
             if 'SUMMARY:' in line:
                 self.__summary = line.replace('SUMMARY:', '')
 
-    def to_text(self):
-        return 'Der Termin {} beginnt am {} um {} Uhr und endet um {} Uhr.'.format(
-        self.__summary,
-        self.__start_datetime.strftime("%d.%m.%Y"),
-        self.__start_datetime.strftime("%H:%M"),
-        self.__end_datetime.strftime("%H:%M")
-        )
-
 class Nextcloud(object):
     def __init__(self, credentials):
         self.__url = credentials.server_url_dav
@@ -58,29 +72,60 @@ class Nextcloud(object):
         self.__principal = self.__client.principal()
         self.__calendars = self.__principal.calendars()
 
-    def get_all_events_between(self, startdate, enddate):
-        events_found = []
-        return_text = ''
+    def get_all_appointments_between(self, startdate, enddate):
+        appointments_found = []
         if len(self.__calendars) > 0:
             for calendar in self.__calendars:
                 results = calendar.date_search(startdate, enddate)
 
-                for event in results:
-                    calendarEntry = VCalendarWrapper(event.data)
-                    events_found.append(calendarEntry.to_text())
-        return events_found
+                for appointment in results:
+                    calendarEntry = VCalendarWrapper(appointment.data)
+                    appointments_found.append(calendarEntry)
+        return appointments_found
 
-    def convert_events_to_text(self, events_list):
-        if len(events_list) > 0:
-            return_text = 'Es stehen {} Termin an.\n'.format(len(events_list))
-            for found_event in events_list:
-                return_text = return_text + found_event + '\n'
-        else:
-            return_text = 'Heute stehen keine Termin an.'
-        return return_text
-
-    def get_all_events_as_text_for_today(self):
+    def get_all_appointments_for_today(self):
         startdate = date.today()
         enddate = date.today() + timedelta(days=1)
-        events_list = self.get_all_events_between(startdate, enddate)
-        return self.convert_events_to_text(events_list)
+        return self.get_all_appointments_between(startdate, enddate)
+
+    def get_all_appointments_for_this_week(self):
+        startdate = date.today()
+        enddate = date.today() + timedelta(days=7)
+        return self.get_all_appointments_between(startdate, enddate)
+
+class OutputStyler(object):
+    def formatAppointments(self, appointments):
+        return_text = self._formatHeader(appointments)
+        for appointment in appointments:
+            return_text = return_text + '\n' + self._formatAppointment(appointment)
+        return return_text
+
+    def _formatHeader(self, appointments):
+        if len(appointments) == 0:
+            return 'No appointments'
+        else:
+            return 'There are {} appointments'.format(len(appointments))
+
+    def _formatAppointment(self, appointment):
+        return '{} {} - {} {}: {}'.format(
+            appointment.startDate,
+            appointment.startTime,
+            appointment.endDate,
+            appointment.endTime,
+            appointment.summary,
+        )
+
+class DecoratedOutputStyler(OutputStyler):
+    def _formatHeader(self, appointments):
+        return ''
+
+    def _formatAppointment(self, appointment):
+        return_text = ''
+        return_text = return_text + '                                                       _______________\n'
+        return_text = return_text + '  _____________________________________________________|  {}  |_____________________________________________________\n'.format(appointment.startDateTime.strftime("%a %d.%m"))
+        return_text = return_text + '\t\t\t{} - {}\t{}\n'.format(
+            appointment.startTime,
+            appointment.endTime,
+            appointment.summary,
+        )
+        return return_text
