@@ -12,13 +12,23 @@ class CloudAssistant:
     def print_all_appointments_till_one_week(self, styler):
         print( styler.formatAppointments(self.__nextcloud.get_all_appointments_for_this_week()) )
 
+import argparse
 def main():
-    """Main script function."""
+    parser = argparse.ArgumentParser(description="Cloud assistant for command line")
+    parser.add_argument('-d', dest='decoraterStyle', action='store_true',
+                       help='Specify the style of the output')
+
+    args = parser.parse_args()
+    
+    if args.decoraterStyle:
+        styler = DecoratedOutputStyler()
+    else:
+        styler = OutputStyler()
+
     userSettings = Settings()
     userSettings.load_from_file(Settings.CONF_DIR)
     cloud_assistant = CloudAssistant(userSettings)
 
-    styler = DecoratedOutputStyler()
     cloud_assistant.print_all_appointments_till_one_week(styler)
 
 if __name__ == "__main__":
