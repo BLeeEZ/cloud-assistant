@@ -28,6 +28,7 @@ class ReportStyler(Styler):
     def _add_day_header(self, target_daytime):
         return_text = ''
         return_text = return_text + '                                                       ┌─────────────┐\n'
-        return_text = return_text + '  ─────────────────────────────────────────────────────┤  {}  ├─────────────────────────────────────────────────────\n'.format(target_daytime.strftime("%a %d.%m"))
-        return_text = return_text + '                                                       └─────────────┘\n'
+        return_text = return_text + '  ─────────────────────────────────────────────────────┘  {}  └─────────────────────────────────────────────────────\n'.format(target_daytime.strftime("%a %d.%m"))
+        #┤├
+        #return_text = return_text + '                                                       └─────────────┘\n'
         return return_text
