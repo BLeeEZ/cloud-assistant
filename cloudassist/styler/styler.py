@@ -1,12 +1,16 @@
 class Styler(object):
-    def formatAppointments(self, appointments):
-        return_text = self._formatHeader(appointments)
+    def __init__(self):
+        self.ret_str = ''
+
+    def format_appointments(self, appointments):
+        self.ret_str = ''
+        self._appand_appointment_header(appointments)
         for appointment in appointments:
-            return_text = return_text + '\n' + self._formatAppointment(appointment)
-        return return_text
+            self._appand_formated_appointment(appointment)
+        return self.ret_str
 
-    def _formatHeader(self, appointments):
-        return ''
+    def _appand_appointment_header(self, appointments):
+        pass
 
-    def _formatAppointment(self, appointment):
-        return ''
+    def _appand_formated_appointment(self, appointment):
+        pass
