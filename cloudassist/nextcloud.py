@@ -30,7 +30,7 @@ class Nextcloud(object):
                 results = calendar.date_search(start_date, end_date)
 
                 for appointment in results:
-                    calendarEntry = VCalendarWrapper(appointment.data)
+                    calendarEntry = VCalendarWrapper(appointment.data, calendar.name)
                     appointments_found.append(calendarEntry)
             appointments_found.sort(key= lambda x: x.start_date_time)
         return appointments_found

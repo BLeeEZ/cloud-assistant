@@ -5,6 +5,9 @@ class VCalendarWrapper(object):
     def summary(self):
         return self.__summary
     @property
+    def calendar_name(self):
+        return self.__calendar_name
+    @property
     def start_date_time(self):
         return self.__start_datetime
     @property
@@ -23,8 +26,9 @@ class VCalendarWrapper(object):
     def end_time(self):
         return self.__end_datetime.strftime("%H:%M")
 
-    def __init__(self, calendar_data):
+    def __init__(self, calendar_data, calendar_name):
         self.__calendar_data = calendar_data
+        self.__calendar_name = calendar_name
         self.__start_datetime = None
         self.__end_datetime = None
         self.__summary = None
