@@ -12,9 +12,9 @@ class ListingStyler(Styler):
 
     def _appand_formated_appointment(self, appointment):
         self.ret_str = self.ret_str + '{} {} - {} {}: {}'.format(
-            appointment.startDate,
-            appointment.startTime,
-            appointment.endDate,
-            appointment.endTime,
+            appointment.start_date,
+            appointment.start_time,
+            appointment.end_date,
+            appointment.end_time,
             appointment.summary,
         )

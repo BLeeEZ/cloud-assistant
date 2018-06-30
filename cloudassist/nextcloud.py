@@ -23,24 +23,24 @@ class Nextcloud(object):
         self.__principal = self.__client.principal()
         self.__calendars = self.__principal.calendars()
 
-    def get_all_appointments_between(self, startdate, enddate):
+    def get_all_appointments_between(self, start_date, end_date):
         appointments_found = []
         if len(self.__calendars) > 0:
             for calendar in self.__calendars:
-                results = calendar.date_search(startdate, enddate)
+                results = calendar.date_search(start_date, end_date)
 
                 for appointment in results:
                     calendarEntry = VCalendarWrapper(appointment.data)
                     appointments_found.append(calendarEntry)
-            appointments_found.sort(key= lambda x: x.startDateTime)
+            appointments_found.sort(key= lambda x: x.start_date_time)
         return appointments_found
 
     def get_all_appointments_for_today(self):
-        startdate = date.today()
-        enddate = date.today() + timedelta(days=1)
-        return self.get_all_appointments_between(startdate, enddate)
+        start_date = date.today()
+        end_date = date.today() + timedelta(days=1)
+        return self.get_all_appointments_between(start_date, end_date)
 
     def get_all_appointments_for_this_week(self):
-        startdate = date.today()
-        enddate = date.today() + timedelta(days=7)
-        return self.get_all_appointments_between(startdate, enddate)
+        start_date = date.today()
+        end_date = date.today() + timedelta(days=7)
+        return self.get_all_appointments_between(start_date, end_date)
