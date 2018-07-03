@@ -1,4 +1,5 @@
 from datetime import datetime
+from dateutil import tz
 
 class VCalendarWrapper(object):
     @property
@@ -35,9 +36,9 @@ class VCalendarWrapper(object):
         self.__analyze()
 
     def __datetime_string_to_datetime(self, text):
-        return datetime.strptime(text, '%Y%m%dT%H%M%SZ')
+        return datetime.strptime(text, '%Y%m%dT%H%M%SZ').replace(tz.tzutc()).astimezone(tz.tzlocal())
     def __date_string_to_datetime(self, text):
-        return datetime.strptime(text, '%Y%m%d')
+        return datetime.strptime(text, '%Y%m%d').replace(tz.tzutc()).astimezone(tz.tzlocal())
 
     def __analyze(self):
         for line in self.__calendar_data.split('\r\n'):
